@@ -1,7 +1,6 @@
 package ante
 
 import (
-	"fmt"
 	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -27,15 +26,15 @@ func NewMsgFilterDecorator(k ConsumerKeeper) MsgFilterDecorator {
 }
 
 func (mfd MsgFilterDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
-	currHeight := ctx.BlockHeight()
+	// currHeight := ctx.BlockHeight()
 
-	// If the CCV channel has not yet been established, then we must only allow certain
-	// message types.
-	if _, ok := mfd.ConsumerKeeper.GetProviderChannel(ctx); !ok {
-		if !hasValidMsgsPreCCV(tx.GetMsgs()) {
-			return ctx, fmt.Errorf("tx contains unsupported message types at height %d", currHeight)
-		}
-	}
+	// // If the CCV channel has not yet been established, then we must only allow certain
+	// // message types.
+	// if _, ok := mfd.ConsumerKeeper.GetProviderChannel(ctx); !ok {
+	// 	if !hasValidMsgsPreCCV(tx.GetMsgs()) {
+	// 		return ctx, fmt.Errorf("tx contains unsupported message types at height %d", currHeight)
+	// 	}
+	// }
 
 	return next(ctx, tx, simulate)
 }
